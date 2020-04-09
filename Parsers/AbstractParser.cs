@@ -33,9 +33,32 @@ namespace SyntaxHighlighter.Parsers
 			return combinedCodePieces;
 		}
 
+		private List<string> SplitCodeByPreProcessorDirectives(string code)
+		{
+			List<string> splitByPpd = new List<string>();
+			bool isInsidePpd = false;
+			int changeIndex = 0;
+			for (int i = 0; i < code.Length - 1; i++)
+			{
+				char c = code[i];
+
+				if (isInsidePpd && c == '\r' && code[i + 1] == '\n'
+				|| !isInsidePpd && c == '#')
+				{
+					isInsidePpd = !isInsidePpd;
+					int next = isInsidePpd ? i : i + 1;
+					splitByPpd.Add(code[changeIndex..next]);
+					changeIndex = next;
+				}
+			}
+			splitByPpd.Add(code[changeIndex..]);
+			return splitByPpd;
+		}
+
 		// TODO: Detect multi-line comments.
 		// TODO: Detect if quote comes before comment on the same line, which makes it a string or char instead.
 		// TODO: Support varying types of comments based on the derived parser class, such as <!-- -->.
+		// TODO: Add support for different kind of line breaks.
 		private List<string> SplitCodeByComments(string code)
 		{
 			List<string> splitByComments = new List<string>();
@@ -45,7 +68,6 @@ namespace SyntaxHighlighter.Parsers
 			{
 				char c = code[i];
 
-				// TODO: Add support for different kind of line breaks.
 				if (isInsideComment && c == '\r' && code[i + 1] == '\n'
 				|| !isInsideComment && c == '/' && code[i + 1] == '/')
 				{
@@ -136,53 +158,64 @@ namespace SyntaxHighlighter.Parsers
 
 			List<Piece> detectedDeclarations = DetectDeclarations(code.SplitIncludeDelimiters(CodeLanguage.Separators));
 
-			List<string> splitByComments = SplitCodeByComments(code);
-			for (int i = 0; i < splitByComments.Count; i++)
+			List<string> splitByPpd = SplitCodeByPreProcessorDirectives(code);
+			for (int i = 0; i < splitByPpd.Count; i++)
 			{
-				bool isComment = i % 2 == 1;
-				if (isComment)
+				bool isPpd = i % 2 == 1;
+				if (isPpd)
 				{
-					codePieces.Add(new Piece(splitByComments[i].TrimEnd(), "Comment"));
+					codePieces.Add(new Piece(splitByPpd[i].TrimEnd(), "PreProcessorDirective"));
 					continue;
 				}
 
-				List<string> splitByDoubleQuote = SplitCodeByQuotes(splitByComments[i], '"');
-				for (int j = 0; j < splitByDoubleQuote.Count; j++)
+				List<string> splitByComments = SplitCodeByComments(splitByPpd[i]);
+				for (int j = 0; j < splitByComments.Count; j++)
 				{
-					bool isString = j % 2 == 1;
-					if (isString)
+					bool isComment = j % 2 == 1;
+					if (isComment)
 					{
-						if (j > 0 && splitByDoubleQuote[j - 1].Length > 0 && splitByDoubleQuote[j - 1][^1] == '$')
-						{
-							(string substring, bool isBetween)[] splitByCurlyBraces = GetSubstringsBetween(splitByDoubleQuote[j], '{', '}').ToArray();
-							for (int k = 0; k < splitByCurlyBraces.Length; k++)
-							{
-								if (!splitByCurlyBraces[k].isBetween)
-									codePieces.Add(new Piece(splitByCurlyBraces[k].substring, "String"));
-								else
-									codePieces.AddRange(Parse(splitByCurlyBraces[k].substring, externalDeclarations));
-							}
-						}
-						else
-						{
-							codePieces.Add(new Piece(splitByDoubleQuote[j], "String"));
-						}
+						codePieces.Add(new Piece(splitByComments[j].TrimEnd(), "Comment"));
 						continue;
 					}
 
-					List<string> splitBySingleQuote = SplitCodeByQuotes(splitByDoubleQuote[j], '\'');
-					for (int k = 0; k < splitBySingleQuote.Count; k++)
+					List<string> splitByDoubleQuote = SplitCodeByQuotes(splitByComments[j], '"');
+					for (int k = 0; k < splitByDoubleQuote.Count; k++)
 					{
-						bool isChar = k % 2 == 1;
-						if (isChar)
+						bool isString = k % 2 == 1;
+						if (isString)
 						{
-							codePieces.Add(new Piece(splitBySingleQuote[k], "Char"));
+							if (k > 0 && splitByDoubleQuote[k - 1].Length > 0 && splitByDoubleQuote[k - 1][^1] == '$')
+							{
+								(string substring, bool isBetween)[] splitByCurlyBraces = GetSubstringsBetween(splitByDoubleQuote[k], '{', '}').ToArray();
+								for (int l = 0; l < splitByCurlyBraces.Length; l++)
+								{
+									if (!splitByCurlyBraces[l].isBetween)
+										codePieces.Add(new Piece(splitByCurlyBraces[l].substring, "String"));
+									else
+										codePieces.AddRange(Parse(splitByCurlyBraces[l].substring, externalDeclarations));
+								}
+							}
+							else
+							{
+								codePieces.Add(new Piece(splitByDoubleQuote[k], "String"));
+							}
 							continue;
 						}
 
-						string[] splitBySeparator = splitBySingleQuote[k].SplitIncludeDelimiters(CodeLanguage.Separators);
-						for (int l = 0; l < splitBySeparator.Length; l++)
-							HandleSplitBySeparator(splitBySeparator, ref l);
+						List<string> splitBySingleQuote = SplitCodeByQuotes(splitByDoubleQuote[k], '\'');
+						for (int l = 0; l < splitBySingleQuote.Count; l++)
+						{
+							bool isChar = l % 2 == 1;
+							if (isChar)
+							{
+								codePieces.Add(new Piece(splitBySingleQuote[l], "Char"));
+								continue;
+							}
+
+							string[] splitBySeparator = splitBySingleQuote[l].SplitIncludeDelimiters(CodeLanguage.Separators);
+							for (int m = 0; m < splitBySeparator.Length; m++)
+								HandleSplitBySeparator(splitBySeparator, ref m);
+						}
 					}
 				}
 			}
