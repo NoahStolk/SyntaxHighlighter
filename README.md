@@ -2,7 +2,7 @@
 A syntax highlighter written in C# that makes code strings colorful
 
 ## Framework
-.NET Core 2.0
+.NET Standard 2.0
 
 ## Language
 C# 8.0
