@@ -79,7 +79,7 @@ namespace SyntaxHighlighter.Parsers
 		{
 			string type;
 
-			if (index < pieces.Length - 1 && pieces[index + 1][0] == '(')
+			if (index < pieces.Length - 1 && pieces[index + 1][0] == '(' && pieces[index][0] != '(')
 				type = "Function";
 			else if (index > 1 && pieces[index - 1][0] == '.')
 				type = "Field";

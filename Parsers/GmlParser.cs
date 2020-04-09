@@ -55,7 +55,7 @@ namespace SyntaxHighlighter.Parsers
 
 		protected override Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index)
 		{
-			if (index < pieces.Length - 1 && pieces[index + 1][0] == '(')
+			if (index < pieces.Length - 1 && pieces[index + 1][0] == '(' && pieces[index][0] != '(')
 				return new Piece(pieces[index], "Function");
 
 			return new Piece(pieces[index], "Other");
