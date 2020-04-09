@@ -45,6 +45,7 @@ namespace SyntaxHighlighter.Parsers
 			{
 				char c = code[i];
 
+				// TODO: Add support for different kind of line breaks.
 				if (isInsideComment && c == '\r' && code[i + 1] == '\n'
 				|| !isInsideComment && c == '/' && code[i + 1] == '/')
 				{

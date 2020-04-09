@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace SyntaxHighlighter.Parsers
 {
+	// TODO: Add all keywords (there's a lot).
 	public sealed class HlslParser : AbstractParser
 	{
 		private static readonly Lazy<HlslParser> lazy = new Lazy<HlslParser>(() => new HlslParser());
@@ -24,9 +25,10 @@ namespace SyntaxHighlighter.Parsers
 			}
 			CodeLanguage.ReservedKeywords["KeywordType"] = typeKeywords.ToArray();
 
+			List<string> functionKeywords = new List<string> { "step", "sqrt", "abs", "pow", "saturate", "mul", "dot", "normalize", "clip" };
+
 			string[] functions = new string[] { "tex1D", "tex2D", "tex3D", "texCUBE" };
 			string[] functionTypes = new string[] { "bias", "grad", "lod", "proj" };
-			List<string> functionKeywords = new List<string> { "step", "sqrt", "abs", "pow", "saturate", "mul", "dot", "normalize", "clip" };
 			foreach (string function in functions)
 			{
 				functionKeywords.Add(function);
@@ -38,13 +40,12 @@ namespace SyntaxHighlighter.Parsers
 
 		public override string Name { get; } = "HLSL";
 
-		// TODO: Add all keywords (there's a lot).
 		public override Language CodeLanguage { get; } = new Language(
 			reservedKeywords: new Dictionary<string, string[]>
 			{
 				{
 					"KeywordDefault",
-					new string[] { "break", "case", "const", "compile", "continue", "discard", "do", "else", "false", "for", "goto", "if", "int", "pass", "register", "return", "sampler", "sampler1D", "sampler2D", "sampler3D", "samplerCUBE", "sampler_state", "struct", "switch", "technique", "texture", "true", "while" }
+					new string[] { "break", "case", "const", "compile", "continue", "default", "discard", "do", "else", "false", "for", "goto", "if", "pass", "register", "return", "sampler", "sampler1D", "sampler2D", "sampler3D", "samplerCUBE", "sampler_state", "struct", "switch", "technique", "texture", "true", "while" }
 				},
 				{
 					"KeywordControlStatement",
