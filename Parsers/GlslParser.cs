@@ -37,7 +37,6 @@ namespace SyntaxHighlighter.Parsers
 
 		public override string Name { get; } = "GLSL";
 
-		// TODO: Add all keywords (there's a lot).
 		public override Language CodeLanguage { get; } = new Language(
 			reservedKeywords: new Dictionary<string, string[]>
 			{
