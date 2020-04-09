@@ -4,6 +4,9 @@
 		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="IndexRange" Version="1.0.0" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\NetBase\NetBase\NetBase.csproj" />
 	</ItemGroup>
 </Project>
