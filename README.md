@@ -1,8 +1,8 @@
 # SyntaxHighlighter
-A syntax highlighter written in C# that turns code strings into colorful HTML
+A syntax highlighter written in C# that makes code strings colorful
 
 ## Framework
-.NET Core 3.1
+.NET Core 2.0
 
 ## Language
 C# 8.0
