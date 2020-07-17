@@ -8,4 +8,4 @@ A syntax highlighter written in C# that makes code strings colorful
 C# 8.0
 
 ## Dependencies
-- [NetBase](https://github.com/NoahStolk/NetBase)
+N/A
