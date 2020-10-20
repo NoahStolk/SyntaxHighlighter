@@ -12,7 +12,7 @@ namespace SyntaxHighlighter.Parsers
 		public abstract Language CodeLanguage { get; }
 		public abstract Style CodeStyle { get; }
 
-		private List<Piece> CombinePieces(List<Piece> codePieces)
+		private static List<Piece> CombinePieces(List<Piece> codePieces)
 		{
 			List<Piece> combinedCodePieces = new List<Piece>();
 			for (int i = 0; i < codePieces.Count;)
@@ -33,7 +33,7 @@ namespace SyntaxHighlighter.Parsers
 			return combinedCodePieces;
 		}
 
-		private List<string> SplitCodeByPreProcessorDirectives(string code)
+		private static List<string> SplitCodeByPreProcessorDirectives(string code)
 		{
 			List<string> splitByPpd = new List<string>();
 			bool isInsidePpd = false;
@@ -51,6 +51,7 @@ namespace SyntaxHighlighter.Parsers
 					changeIndex = next;
 				}
 			}
+
 			splitByPpd.Add(code[changeIndex..]);
 			return splitByPpd;
 		}
@@ -59,7 +60,7 @@ namespace SyntaxHighlighter.Parsers
 		// TODO: Detect if quote comes before comment on the same line, which makes it a string or char instead.
 		// TODO: Support varying types of comments based on the derived parser class, such as <!-- -->.
 		// TODO: Add support for different kind of line breaks.
-		private List<string> SplitCodeByComments(string code)
+		private static List<string> SplitCodeByComments(string code)
 		{
 			List<string> splitByComments = new List<string>();
 			bool isInsideComment = false;
@@ -77,11 +78,12 @@ namespace SyntaxHighlighter.Parsers
 					changeIndex = next;
 				}
 			}
+
 			splitByComments.Add(code[changeIndex..]);
 			return splitByComments;
 		}
 
-		private List<string> SplitCodeByQuotes(string code, char quote)
+		private static List<string> SplitCodeByQuotes(string code, char quote)
 		{
 			char opposingQuote = quote switch
 			{
@@ -110,11 +112,12 @@ namespace SyntaxHighlighter.Parsers
 					changeIndex = next;
 				}
 			}
+
 			splitByString.Add(code[changeIndex..]);
 			return splitByString;
 		}
 
-		private IEnumerable<(string substring, bool isBetween)> GetSubstringsBetween(string s, char start, char end)
+		private static IEnumerable<(string substring, bool isBetween)> GetSubstringsBetween(string s, char start, char end)
 		{
 			StringBuilder sb = new StringBuilder();
 			bool active = false;
@@ -149,10 +152,11 @@ namespace SyntaxHighlighter.Parsers
 					sb.Append(c);
 				}
 			}
+
 			yield return (sb.ToString(), false);
 		}
 
-		public List<Piece> Parse(string code, List<Piece> externalDeclarations = null)
+		public List<Piece> Parse(string code, List<Piece>? externalDeclarations = null)
 		{
 			List<Piece> codePieces = new List<Piece>();
 
@@ -199,6 +203,7 @@ namespace SyntaxHighlighter.Parsers
 							{
 								codePieces.Add(new Piece(splitByDoubleQuote[k], "String"));
 							}
+
 							continue;
 						}
 
@@ -229,7 +234,7 @@ namespace SyntaxHighlighter.Parsers
 				if (index < split.Length - 2
 				 && split[index + 1] == "."
 				 && IsDigitsOnly(s0[0] == '-' ? s0[1..] : s0)
-				 && IsDigitsOnly(split[index + 2].Replace("f", "")))
+				 && IsDigitsOnly(split[index + 2].Replace("f", string.Empty, StringComparison.InvariantCulture)))
 				{
 					string newPiece = string.Concat(s0, split[index + 1], split[index + 2]);
 					codePieces.Add(new Piece(newPiece, "Number"));
@@ -249,8 +254,8 @@ namespace SyntaxHighlighter.Parsers
 					return;
 				}
 
-				Piece detectedDeclaration = detectedDeclarations?.FirstOrDefault(d => d.Code == s0);
-				Piece externalDeclaration = externalDeclarations?.FirstOrDefault(d => d.Code == s0);
+				Piece? detectedDeclaration = detectedDeclarations?.FirstOrDefault(d => d.Code == s0);
+				Piece? externalDeclaration = externalDeclarations?.FirstOrDefault(d => d.Code == s0);
 				if (detectedDeclaration != null)
 					codePieces.Add(detectedDeclaration);
 				else if (externalDeclaration != null)
@@ -260,11 +265,12 @@ namespace SyntaxHighlighter.Parsers
 			}
 		}
 
-		private static bool IsDigitsOnly(string s) => !string.IsNullOrEmpty(s) && s.All(char.IsDigit);
+		private static bool IsDigitsOnly(string s)
+			=> !string.IsNullOrEmpty(s) && s.All(char.IsDigit);
 
 		private bool IsReservedKeyword(string s, out string type)
 		{
-			type = null;
+			type = string.Empty;
 
 			foreach (KeyValuePair<string, string[]> kvp in CodeLanguage.ReservedKeywords)
 			{
@@ -278,7 +284,8 @@ namespace SyntaxHighlighter.Parsers
 			return false;
 		}
 
-		protected virtual List<Piece> DetectDeclarations(string[] pieces) => new List<Piece>();
+		protected virtual List<Piece> DetectDeclarations(string[] pieces)
+			=> new List<Piece>();
 
 		protected abstract Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index);
 	}

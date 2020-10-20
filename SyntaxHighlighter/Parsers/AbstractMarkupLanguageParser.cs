@@ -10,12 +10,7 @@ namespace SyntaxHighlighter.Parsers
 
 		protected override Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index)
 		{
-			string type;
-
-			if (index >= 1 && pieces[index - 1][0] == '<')
-				type = "Element";
-			else
-				type = "Other";
+			string type = index >= 1 && pieces[index - 1][0] == '<' ? "Element" : "Other";
 
 			return new Piece(pieces[index], type);
 		}

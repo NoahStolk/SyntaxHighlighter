@@ -6,8 +6,7 @@ namespace SyntaxHighlighter.Parsers
 	// TODO: Add all keywords (there's a lot).
 	public sealed class HlslParser : AbstractParser
 	{
-		private static readonly Lazy<HlslParser> lazy = new Lazy<HlslParser>(() => new HlslParser());
-		public static HlslParser Instance => lazy.Value;
+		private static readonly Lazy<HlslParser> _lazy = new Lazy<HlslParser>(() => new HlslParser());
 
 		private HlslParser()
 		{
@@ -23,6 +22,7 @@ namespace SyntaxHighlighter.Parsers
 						typeKeywords.Add($"{type}{i + 1}x{j + 1}");
 				}
 			}
+
 			CodeLanguage.ReservedKeywords["KeywordType"] = typeKeywords.ToArray();
 
 			List<string> functionKeywords = new List<string> { "step", "sqrt", "abs", "pow", "saturate", "mul", "dot", "normalize", "clip" };
@@ -35,8 +35,11 @@ namespace SyntaxHighlighter.Parsers
 				foreach (string functionType in functionTypes)
 					functionKeywords.Add($"{function}{functionType}");
 			}
+
 			CodeLanguage.ReservedKeywords["KeywordFunctions"] = functionKeywords.ToArray();
 		}
+
+		public static HlslParser Instance => _lazy.Value;
 
 		public override string Name { get; } = "HLSL";
 
@@ -53,8 +56,8 @@ namespace SyntaxHighlighter.Parsers
 				},
 				{
 					"KeywordSemantic",
-					new string[]{ "COLOR0" }
-				}
+					new string[] { "COLOR0" }
+				},
 			},
 			separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.' });
 
@@ -71,7 +74,7 @@ namespace SyntaxHighlighter.Parsers
 				{ "Function", new Color(255, 127, 255) },
 				{ "Field", new Color(0, 255, 0) },
 				{ "Struct", new Color(159, 255, 0) },
-				{ "Comment", new Color(0, 159, 0) }
+				{ "Comment", new Color(0, 159, 0) },
 			},
 			backgroundColor: new Color(11, 5, 11),
 			borderColor: new Color(127, 63, 127));

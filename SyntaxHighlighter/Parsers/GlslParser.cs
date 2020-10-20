@@ -6,8 +6,7 @@ namespace SyntaxHighlighter.Parsers
 {
 	public sealed class GlslParser : AbstractParser
 	{
-		private static readonly Lazy<GlslParser> lazy = new Lazy<GlslParser>(() => new GlslParser());
-		public static GlslParser Instance => lazy.Value;
+		private static readonly Lazy<GlslParser> _lazy = new Lazy<GlslParser>(() => new GlslParser());
 
 		private GlslParser()
 		{
@@ -32,8 +31,11 @@ namespace SyntaxHighlighter.Parsers
 						matrixTypeKeywords.Add($"{matrixType}{i}x{j}");
 				}
 			}
+
 			CodeLanguage.ReservedKeywords["KeywordType"] = vectorTypeKeywords.Concat(matrixTypeKeywords).Concat(new[] { "double", "float", "int", "long", "short" }).ToArray();
 		}
+
+		public static GlslParser Instance => _lazy.Value;
 
 		public override string Name { get; } = "GLSL";
 
@@ -47,7 +49,7 @@ namespace SyntaxHighlighter.Parsers
 				{
 					"KeywordTypeSampler",
 					new string[] { "isampler1D", "isampler1DArray", "isampler2D", "isampler2DArray", "isampler2DMS", "isampler2DMSArray", "isampler2DRect", "isampler3D", "isamplerBuffer", "isamplerCube", "isamplerCubeArray", "sample", "sampler1D", "sampler1DArray", "sampler1DArrayShadow", "sampler1DShadow", "sampler2D", "sampler2DArray", "sampler2DArrayShadow", "sampler2DMS", "sampler2DMSArray", "sampler2DRect", "sampler2DRectShadow", "sampler2DShadow", "sampler3D", "samplerBuffer", "samplerCube", "samplerCubeArray", "samplerCubeArrayShadow", "samplerCubeShadow", "usampler1D", "usampler1DArray", "usampler2D", "usampler2DArray", "usampler2DMS", "usampler2DMSArray", "usampler2DRect", "usampler3D", "usamplerBuffer", "usamplerCube", "usamplerCubeArray" }
-				}
+				},
 			},
 			separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.', ':' });
 
@@ -64,7 +66,7 @@ namespace SyntaxHighlighter.Parsers
 				{ "Field", new Color(0, 255, 0) },
 				{ "Struct", new Color(159, 255, 0) },
 				{ "Comment", new Color(0, 159, 0) },
-				{ "PreProcessorDirective", new Color(127, 127, 127) }
+				{ "PreProcessorDirective", new Color(127, 127, 127) },
 			},
 			backgroundColor: new Color(11, 0, 0),
 			borderColor: new Color(127, 0, 0));

@@ -5,12 +5,13 @@ namespace SyntaxHighlighter.Parsers
 {
 	public sealed class CSharpParser : AbstractParser
 	{
-		private static readonly Lazy<CSharpParser> lazy = new Lazy<CSharpParser>(() => new CSharpParser());
-		public static CSharpParser Instance => lazy.Value;
+		private static readonly Lazy<CSharpParser> _lazy = new Lazy<CSharpParser>(() => new CSharpParser());
 
 		private CSharpParser()
 		{
 		}
+
+		public static CSharpParser Instance => _lazy.Value;
 
 		public override string Name { get; } = "C#";
 
@@ -23,13 +24,12 @@ namespace SyntaxHighlighter.Parsers
 				},
 				{
 					"KeywordConditional",
-					// "default", Only inside a switch statement...
-					new string[] { "break", "case", "catch", "continue", "do", "else", "finally", "for", "foreach", "goto", "if", "in", "return", "switch", "try", "while" }
+					new string[] { "break", "case", "catch", "continue", "do", "else", "finally", "for", "foreach", "goto", "if", "in", "return", "switch", "try", "while" } // "default", Only inside a switch statement...
 				},
 				{
 					"KeywordContextual",
 					new string[] { "add", "alias", "ascending", "async", "await", "by", "descending", "dynamic", "equals", "from", "get", "global", "group", "into", "join", "let", "nameof", "on", "orderby", "partial", "remove", "select", "set", "unmanaged", "value", "var", "when", "where", "yield" }
-				}
+				},
 			},
 			separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', '{', '}', ';', '.' });
 
@@ -50,7 +50,7 @@ namespace SyntaxHighlighter.Parsers
 				{ "Interface", new Color(191, 255, 0) },
 				{ "Enum", new Color(95, 255, 0) },
 				{ "TypeConstraint", new Color(159, 255, 127) },
-				{ "Comment", new Color(0, 159, 0) }
+				{ "Comment", new Color(0, 159, 0) },
 			},
 			backgroundColor: new Color(5, 11, 5),
 			borderColor: new Color(63, 127, 63));
@@ -60,8 +60,8 @@ namespace SyntaxHighlighter.Parsers
 			List<Piece> declarations = new List<Piece>();
 			for (int i = 0; i < pieces.Length; i++)
 			{
-				string twoBehind = i > 1 ? pieces[i - 2] : null;
-				string type = twoBehind switch
+				string? twoBehind = i > 1 ? pieces[i - 2] : null;
+				string? type = twoBehind switch
 				{
 					"class" => "Class",
 					"struct" => "Struct",
@@ -71,12 +71,13 @@ namespace SyntaxHighlighter.Parsers
 					"abstract" => "Class", // Guess
 					"override" => "Class", // Guess
 					"virtual" => "Class", // Guess
-					_ => null
+					_ => null,
 				};
 
 				if (type != null)
 					declarations.Add(new Piece(pieces[i], type));
 			}
+
 			return declarations;
 		}
 
@@ -86,14 +87,16 @@ namespace SyntaxHighlighter.Parsers
 
 			if (index < pieces.Length - 1 && pieces[index + 1][0] == '(' && pieces[index][0] != '(')
 			{
-				string twoBehind = index > 1 ? pieces[index - 2] : null;
+				string? twoBehind = index > 1 ? pieces[index - 2] : null;
 				type = twoBehind switch
 				{
 					"new" => "Constructor",
-					_ => "Function"
+					_ => "Function",
 				};
 			}
-			else if (index < pieces.Length - 1 && pieces[index + 1][0] == '<') // Extra check for generics
+
+			// Extra check for generics
+			else if (index < pieces.Length - 1 && pieces[index + 1][0] == '<')
 			{
 				type = "Class"; // Guess
 			}
