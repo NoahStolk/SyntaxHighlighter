@@ -4,10 +4,6 @@ namespace SyntaxHighlighter
 {
 	public struct Color
 	{
-		public byte R { get; }
-		public byte G { get; }
-		public byte B { get; }
-
 		public Color(byte r, byte g, byte b)
 		{
 			R = r;
@@ -15,6 +11,11 @@ namespace SyntaxHighlighter
 			B = b;
 		}
 
-		public override string ToString() => $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", "")}";
+		public byte R { get; }
+		public byte G { get; }
+		public byte B { get; }
+
+		public override string ToString()
+			=> $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", string.Empty, StringComparison.CurrentCulture)}";
 	}
 }
