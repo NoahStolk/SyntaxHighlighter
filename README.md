@@ -1,5 +1,5 @@
 [![NuGet Version](https://img.shields.io/nuget/v/NoahStolk.SyntaxHighlighter.svg)](https://www.nuget.org/packages/NoahStolk.SyntaxHighlighter/)
-[![Scc Count Badge](https://sloc.xyz/github/NoahStolk/DevilDaggersCore/)](https://github.com/NoahStolk/DevilDaggersCore/)
+[![Scc Count Badge](https://sloc.xyz/github/NoahStolk/SyntaxHighlighter/)](https://github.com/NoahStolk/SyntaxHighlighter/)
 
 # SyntaxHighlighter
 A syntax highlighter written in C# that creates colorful code strings
