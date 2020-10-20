@@ -1,5 +1,8 @@
+[![NuGet Version](https://img.shields.io/nuget/v/NoahStolk.SyntaxHighlighter.svg)](https://www.nuget.org/packages/NoahStolk.SyntaxHighlighter/)
+[![Scc Count Badge](https://sloc.xyz/github/NoahStolk/DevilDaggersCore/)](https://github.com/NoahStolk/DevilDaggersCore/)
+
 # SyntaxHighlighter
-A syntax highlighter written in C# that makes code strings colorful
+A syntax highlighter written in C# that creates colorful code strings
 
 ## Framework
 .NET Core 3.1
