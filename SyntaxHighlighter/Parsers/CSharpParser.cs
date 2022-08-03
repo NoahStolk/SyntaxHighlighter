@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace SyntaxHighlighter.Parsers
 {
 	public sealed class CSharpParser : AbstractParser
 	{
-		private static readonly Lazy<CSharpParser> _lazy = new Lazy<CSharpParser>(() => new CSharpParser());
+		private static readonly Lazy<CSharpParser> _lazy = new(() => new());
 
 		private CSharpParser()
 		{
@@ -15,7 +15,7 @@ namespace SyntaxHighlighter.Parsers
 
 		public override string Name { get; } = "C#";
 
-		public override Language CodeLanguage { get; } = new Language(
+		public override Language CodeLanguage { get; } = new(
 			reservedKeywords: new Dictionary<string, string[]>
 			{
 				{
@@ -33,31 +33,31 @@ namespace SyntaxHighlighter.Parsers
 			},
 			separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', '{', '}', ';', '.' });
 
-		public override Style CodeStyle { get; } = new Style(
+		public override Style CodeStyle { get; } = new(
 			highlightColors: new Dictionary<string, Color>
 			{
-				{ "KeywordDefault", new Color(0, 127, 255) },
-				{ "KeywordConditional", new Color(191, 63, 255) },
-				{ "KeywordContextual", new Color(95, 127, 255) },
-				{ "Number", new Color(127, 255, 127) },
-				{ "Other", new Color(255, 255, 255) },
-				{ "String", new Color(255, 127, 0) },
-				{ "Char", new Color(255, 191, 0) },
-				{ "Function", new Color(255, 255, 127) },
-				{ "Class", new Color(0, 255, 0) },
-				{ "Struct", new Color(159, 255, 0) },
-				{ "Constructor", new Color(63, 255, 159) },
-				{ "Interface", new Color(191, 255, 0) },
-				{ "Enum", new Color(95, 255, 0) },
-				{ "TypeConstraint", new Color(159, 255, 127) },
-				{ "Comment", new Color(0, 159, 0) },
+				{ "KeywordDefault", new(0, 127, 255) },
+				{ "KeywordConditional", new(191, 63, 255) },
+				{ "KeywordContextual", new(95, 127, 255) },
+				{ "Number", new(127, 255, 127) },
+				{ "Other", new(255, 255, 255) },
+				{ "String", new(255, 127, 0) },
+				{ "Char", new(255, 191, 0) },
+				{ "Function", new(255, 255, 127) },
+				{ "Class", new(0, 255, 0) },
+				{ "Struct", new(159, 255, 0) },
+				{ "Constructor", new(63, 255, 159) },
+				{ "Interface", new(191, 255, 0) },
+				{ "Enum", new(95, 255, 0) },
+				{ "TypeConstraint", new(159, 255, 127) },
+				{ "Comment", new(0, 159, 0) },
 			},
-			backgroundColor: new Color(5, 11, 5),
-			borderColor: new Color(63, 127, 63));
+			backgroundColor: new(5, 11, 5),
+			borderColor: new(63, 127, 63));
 
 		protected override List<Piece> DetectDeclarations(string[] pieces)
 		{
-			List<Piece> declarations = new List<Piece>();
+			List<Piece> declarations = new();
 			for (int i = 0; i < pieces.Length; i++)
 			{
 				string? twoBehind = i > 1 ? pieces[i - 2] : null;

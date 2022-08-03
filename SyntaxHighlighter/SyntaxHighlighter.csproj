@@ -1,14 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Nullable>enable</Nullable>
     <PackageId>NoahStolk.SyntaxHighlighter</PackageId>
     <Version>1.0.1</Version>
     <Authors>Noah Stolk</Authors>
-    <Copyright>Copyright © Noah Stolk 2020 - 2021</Copyright>
+    <Copyright>Copyright © Noah Stolk 2020 - 2022</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Roslynator.Analyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -23,4 +25,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
 </Project>

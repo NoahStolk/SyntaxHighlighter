@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace SyntaxHighlighter.Parsers
 {
 	public sealed class XmlParser : AbstractMarkupLanguageParser
 	{
-		private static readonly Lazy<XmlParser> _lazy = new Lazy<XmlParser>(() => new XmlParser());
+		private static readonly Lazy<XmlParser> _lazy = new(() => new());
 
 		private XmlParser()
 		{
@@ -15,7 +15,7 @@ namespace SyntaxHighlighter.Parsers
 
 		public override string Name { get; } = "XML";
 
-		public override Style CodeStyle { get; } = new Style(
+		public override Style CodeStyle { get; } = new(
 			highlightColors: new Dictionary<string, Color>
 			{
 				{ "Number", new Color(127, 255, 127) },

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,12 +6,12 @@ namespace SyntaxHighlighter.Parsers
 {
 	public sealed class GlslParser : AbstractParser
 	{
-		private static readonly Lazy<GlslParser> _lazy = new Lazy<GlslParser>(() => new GlslParser());
+		private static readonly Lazy<GlslParser> _lazy = new(() => new());
 
 		private GlslParser()
 		{
 			string[] vectorTypes = new string[] { "bvec", "dvec", "ivec", "uvec", "vec" };
-			List<string> vectorTypeKeywords = new List<string>();
+			List<string> vectorTypeKeywords = new();
 			foreach (string vectorType in vectorTypes)
 			{
 				vectorTypeKeywords.Add(vectorType);
@@ -20,7 +20,7 @@ namespace SyntaxHighlighter.Parsers
 			}
 
 			string[] matrixTypes = new string[] { "dmat", "mat" };
-			List<string> matrixTypeKeywords = new List<string>();
+			List<string> matrixTypeKeywords = new();
 			foreach (string matrixType in matrixTypes)
 			{
 				matrixTypeKeywords.Add(matrixType);
@@ -39,7 +39,7 @@ namespace SyntaxHighlighter.Parsers
 
 		public override string Name { get; } = "GLSL";
 
-		public override Language CodeLanguage { get; } = new Language(
+		public override Language CodeLanguage { get; } = new(
 			reservedKeywords: new Dictionary<string, string[]>
 			{
 				{
@@ -56,20 +56,20 @@ namespace SyntaxHighlighter.Parsers
 		public override Style CodeStyle { get; } = new Style(
 			highlightColors: new Dictionary<string, Color>
 			{
-				{ "KeywordDefault", new Color(0, 127, 255) },
-				{ "KeywordType", new Color(127, 63, 255) },
-				{ "KeywordTypeSampler", new Color(127, 127, 255) },
-				{ "KeywordFunctions", new Color(63, 255, 255) },
-				{ "Number", new Color(127, 255, 127) },
-				{ "Other", new Color(255, 255, 255) },
-				{ "Function", new Color(255, 127, 255) },
-				{ "Field", new Color(0, 255, 0) },
-				{ "Struct", new Color(159, 255, 0) },
-				{ "Comment", new Color(0, 159, 0) },
-				{ "PreProcessorDirective", new Color(127, 127, 127) },
+				{ "KeywordDefault", new(0, 127, 255) },
+				{ "KeywordType", new(127, 63, 255) },
+				{ "KeywordTypeSampler", new(127, 127, 255) },
+				{ "KeywordFunctions", new(63, 255, 255) },
+				{ "Number", new(127, 255, 127) },
+				{ "Other", new(255, 255, 255) },
+				{ "Function", new(255, 127, 255) },
+				{ "Field", new(0, 255, 0) },
+				{ "Struct", new(159, 255, 0) },
+				{ "Comment", new(0, 159, 0) },
+				{ "PreProcessorDirective", new(127, 127, 127) },
 			},
-			backgroundColor: new Color(11, 0, 0),
-			borderColor: new Color(127, 0, 0));
+			backgroundColor: new(11, 0, 0),
+			borderColor: new(127, 0, 0));
 
 		protected override Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index)
 		{

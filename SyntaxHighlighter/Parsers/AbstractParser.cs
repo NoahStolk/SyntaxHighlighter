@@ -1,4 +1,4 @@
-﻿using SyntaxHighlighter.Extensions;
+using SyntaxHighlighter.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +14,11 @@ namespace SyntaxHighlighter.Parsers
 
 		private static List<Piece> CombinePieces(List<Piece> codePieces)
 		{
-			List<Piece> combinedCodePieces = new List<Piece>();
+			List<Piece> combinedCodePieces = new();
 			for (int i = 0; i < codePieces.Count;)
 			{
 				Piece piece = codePieces[i];
-				StringBuilder combinedCode = new StringBuilder(piece.Code);
+				StringBuilder combinedCode = new(piece.Code);
 				string type = piece.Type;
 
 				int check = 1;
@@ -35,7 +35,7 @@ namespace SyntaxHighlighter.Parsers
 
 		private static List<string> SplitCodeByPreProcessorDirectives(string code)
 		{
-			List<string> splitByPpd = new List<string>();
+			List<string> splitByPpd = new();
 			bool isInsidePpd = false;
 			int changeIndex = 0;
 			for (int i = 0; i < code.Length - 1; i++)
@@ -62,7 +62,7 @@ namespace SyntaxHighlighter.Parsers
 		// TODO: Add support for different kind of line breaks.
 		private static List<string> SplitCodeByComments(string code)
 		{
-			List<string> splitByComments = new List<string>();
+			List<string> splitByComments = new();
 			bool isInsideComment = false;
 			int changeIndex = 0;
 			for (int i = 0; i < code.Length - 1; i++)
@@ -89,10 +89,10 @@ namespace SyntaxHighlighter.Parsers
 			{
 				'"' => '\'',
 				'\'' => '"',
-				_ => throw new ArgumentException($"Parameter '{nameof(quote)}' was not a quote.")
+				_ => throw new ArgumentException($"Parameter '{nameof(quote)}' was not a quote."),
 			};
 
-			List<string> splitByString = new List<string>();
+			List<string> splitByString = new();
 			bool isInsideQuotes = false;
 			int changeIndex = 0;
 			for (int i = 0; i < code.Length; i++)
@@ -117,9 +117,9 @@ namespace SyntaxHighlighter.Parsers
 			return splitByString;
 		}
 
-		private static IEnumerable<(string substring, bool isBetween)> GetSubstringsBetween(string s, char start, char end)
+		private static IEnumerable<(string Substring, bool IsBetween)> GetSubstringsBetween(string s, char start, char end)
 		{
-			StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new();
 			bool active = false;
 			for (int i = 0; i < s.Length; i++)
 			{
@@ -158,7 +158,7 @@ namespace SyntaxHighlighter.Parsers
 
 		public List<Piece> Parse(string code, List<Piece>? externalDeclarations = null)
 		{
-			List<Piece> codePieces = new List<Piece>();
+			List<Piece> codePieces = new();
 
 			List<Piece> detectedDeclarations = DetectDeclarations(code.SplitIncludeDelimiters(CodeLanguage.Separators));
 
@@ -190,13 +190,13 @@ namespace SyntaxHighlighter.Parsers
 						{
 							if (k > 0 && splitByDoubleQuote[k - 1].Length > 0 && splitByDoubleQuote[k - 1][^1] == '$')
 							{
-								(string substring, bool isBetween)[] splitByCurlyBraces = GetSubstringsBetween(splitByDoubleQuote[k], '{', '}').ToArray();
+								(string Substring, bool IsBetween)[] splitByCurlyBraces = GetSubstringsBetween(splitByDoubleQuote[k], '{', '}').ToArray();
 								for (int l = 0; l < splitByCurlyBraces.Length; l++)
 								{
-									if (!splitByCurlyBraces[l].isBetween)
-										codePieces.Add(new Piece(splitByCurlyBraces[l].substring, "String"));
+									if (!splitByCurlyBraces[l].IsBetween)
+										codePieces.Add(new Piece(splitByCurlyBraces[l].Substring, "String"));
 									else
-										codePieces.AddRange(Parse(splitByCurlyBraces[l].substring, externalDeclarations));
+										codePieces.AddRange(Parse(splitByCurlyBraces[l].Substring, externalDeclarations));
 								}
 							}
 							else
@@ -284,8 +284,7 @@ namespace SyntaxHighlighter.Parsers
 			return false;
 		}
 
-		protected virtual List<Piece> DetectDeclarations(string[] pieces)
-			=> new List<Piece>();
+		protected virtual List<Piece> DetectDeclarations(string[] pieces) => new();
 
 		protected abstract Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index);
 	}

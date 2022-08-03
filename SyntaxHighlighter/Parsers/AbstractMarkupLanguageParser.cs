@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace SyntaxHighlighter.Parsers
 {
 	public abstract class AbstractMarkupLanguageParser : AbstractParser
 	{
-		public override Language CodeLanguage { get; } = new Language(
+		public override Language CodeLanguage { get; } = new(
 			reservedKeywords: new Dictionary<string, string[]>(),
 			separators: new char[] { ' ', '\t', '\r', '\n', '<', '>' });
 
