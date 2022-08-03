@@ -1,6 +1,6 @@
 using System;
 
-namespace SyntaxHighlighter
+namespace NoahStolk.SyntaxHighlighter
 {
 	public struct Color
 	{

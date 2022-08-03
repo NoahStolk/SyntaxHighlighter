@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SyntaxHighlighter.Parsers
+namespace NoahStolk.SyntaxHighlighter.Parsers
 {
 	public abstract class AbstractMarkupLanguageParser : AbstractParser
 	{

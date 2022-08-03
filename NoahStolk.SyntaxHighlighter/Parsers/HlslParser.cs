@@ -1,7 +1,8 @@
+using NoahStolk.SyntaxHighlighter;
 using System;
 using System.Collections.Generic;
 
-namespace SyntaxHighlighter.Parsers
+namespace NoahStolk.SyntaxHighlighter.Parsers
 {
 	// TODO: Add all keywords (there's a lot).
 	public sealed class HlslParser : AbstractParser

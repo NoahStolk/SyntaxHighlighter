@@ -1,10 +1,10 @@
-using SyntaxHighlighter.Extensions;
+using NoahStolk.SyntaxHighlighter.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SyntaxHighlighter.Parsers
+namespace NoahStolk.SyntaxHighlighter.Parsers
 {
 	public abstract class AbstractParser
 	{

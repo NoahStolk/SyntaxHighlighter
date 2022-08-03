@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SyntaxHighlighter
+namespace NoahStolk.SyntaxHighlighter
 {
 	public class Style
 	{

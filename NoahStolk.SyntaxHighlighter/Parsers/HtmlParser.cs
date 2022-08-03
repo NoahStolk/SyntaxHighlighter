@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SyntaxHighlighter.Parsers
+namespace NoahStolk.SyntaxHighlighter.Parsers
 {
 	public sealed class HtmlParser : AbstractMarkupLanguageParser
 	{

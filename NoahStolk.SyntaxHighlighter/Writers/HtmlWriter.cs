@@ -1,8 +1,9 @@
+using NoahStolk.SyntaxHighlighter;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SyntaxHighlighter.Writers
+namespace NoahStolk.SyntaxHighlighter.Writers
 {
 	public static class HtmlWriter
 	{

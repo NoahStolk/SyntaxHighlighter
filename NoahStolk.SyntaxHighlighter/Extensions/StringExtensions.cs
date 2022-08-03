@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace SyntaxHighlighter.Extensions
+namespace NoahStolk.SyntaxHighlighter.Extensions
 {
 	public static class StringExtensions
 	{
 		public static string[] SplitIncludeDelimiters(this string s, params char[] delimiters)
-			=> SplitIncludeDelimiters(s, delimiters.Select(d => d.ToString()).ToArray());
+			=> s.SplitIncludeDelimiters(delimiters.Select(d => d.ToString()).ToArray());
 
 		public static string[] SplitIncludeDelimiters(this string s, params string[] delimiters)
 		{

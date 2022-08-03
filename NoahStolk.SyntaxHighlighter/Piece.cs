@@ -1,6 +1,6 @@
 using System.Web;
 
-namespace SyntaxHighlighter
+namespace NoahStolk.SyntaxHighlighter
 {
 	public class Piece
 	{
