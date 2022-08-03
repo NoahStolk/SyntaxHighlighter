@@ -1,8 +1,4 @@
 using NoahStolk.SyntaxHighlighter.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NoahStolk.SyntaxHighlighter.Parsers;
 
@@ -234,7 +230,7 @@ public abstract class AbstractParser
 			if (index < split.Length - 2
 			 && split[index + 1] == "."
 			 && IsDigitsOnly(s0[0] == '-' ? s0[1..] : s0)
-			 && IsDigitsOnly(split[index + 2].Replace("f", string.Empty, StringComparison.InvariantCulture)))
+			 && IsDigitsOnly(split[index + 2].Replace("f", string.Empty)))
 			{
 				string newPiece = string.Concat(s0, split[index + 1], split[index + 2]);
 				codePieces.Add(new Piece(newPiece, "Number"));

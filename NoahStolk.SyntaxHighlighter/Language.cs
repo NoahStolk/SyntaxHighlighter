@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace NoahStolk.SyntaxHighlighter;
 
 public class Language

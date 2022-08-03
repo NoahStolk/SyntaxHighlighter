@@ -13,6 +13,7 @@ public class Piece
 	public string Code { get; }
 	public string Type { get; }
 
+	// TODO: Move to HtmlWriter.
 	public override string ToString()
 		=> HttpUtility.HtmlEncode(Code);
 }

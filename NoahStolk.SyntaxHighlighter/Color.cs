@@ -1,5 +1,3 @@
-using System;
-
 namespace NoahStolk.SyntaxHighlighter;
 
 public struct Color
@@ -15,6 +13,7 @@ public struct Color
 	public byte G { get; }
 	public byte B { get; }
 
+	// TODO: Move to HtmlWriter.
 	public override string ToString()
-		=> $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", string.Empty, StringComparison.CurrentCulture)}";
+		=> $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", string.Empty)}";
 }

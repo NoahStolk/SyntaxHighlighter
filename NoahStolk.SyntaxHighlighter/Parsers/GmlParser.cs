@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace NoahStolk.SyntaxHighlighter.Parsers;
 
 public sealed class GmlParser : AbstractParser
