@@ -1,21 +1,20 @@
 using System;
 
-namespace NoahStolk.SyntaxHighlighter
+namespace NoahStolk.SyntaxHighlighter;
+
+public struct Color
 {
-	public struct Color
+	public Color(byte r, byte g, byte b)
 	{
-		public Color(byte r, byte g, byte b)
-		{
-			R = r;
-			G = g;
-			B = b;
-		}
-
-		public byte R { get; }
-		public byte G { get; }
-		public byte B { get; }
-
-		public override string ToString()
-			=> $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", string.Empty, StringComparison.CurrentCulture)}";
+		R = r;
+		G = g;
+		B = b;
 	}
+
+	public byte R { get; }
+	public byte G { get; }
+	public byte B { get; }
+
+	public override string ToString()
+		=> $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", string.Empty, StringComparison.CurrentCulture)}";
 }
