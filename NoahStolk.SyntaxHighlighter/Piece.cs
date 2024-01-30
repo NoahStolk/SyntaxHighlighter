@@ -15,5 +15,7 @@ public class Piece
 
 	// TODO: Move to HtmlWriter.
 	public override string ToString()
-		=> HttpUtility.HtmlEncode(Code);
+	{
+		return HttpUtility.HtmlEncode(Code);
+	}
 }

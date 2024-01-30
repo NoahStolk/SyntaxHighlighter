@@ -1,19 +1,10 @@
 namespace NoahStolk.SyntaxHighlighter;
 
-public struct Color
+public readonly record struct Color(byte R, byte G, byte B)
 {
-	public Color(byte r, byte g, byte b)
-	{
-		R = r;
-		G = g;
-		B = b;
-	}
-
-	public byte R { get; }
-	public byte G { get; }
-	public byte B { get; }
-
 	// TODO: Move to HtmlWriter.
 	public override string ToString()
-		=> $"#{BitConverter.ToString(new[] { R, G, B }).Replace("-", string.Empty)}";
+	{
+		return $"#{BitConverter.ToString([R, G, B]).Replace("-", string.Empty)}";
+	}
 }

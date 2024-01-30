@@ -10,7 +10,7 @@ public abstract class AbstractParser
 
 	private static List<Piece> CombinePieces(List<Piece> codePieces)
 	{
-		List<Piece> combinedCodePieces = new();
+		List<Piece> combinedCodePieces = [];
 		for (int i = 0; i < codePieces.Count;)
 		{
 			Piece piece = codePieces[i];
@@ -21,7 +21,7 @@ public abstract class AbstractParser
 			while (i + check < codePieces.Count && codePieces[i + check].Type == type)
 				combinedCode.Append(codePieces[i + check++].Code);
 
-			combinedCodePieces.Add(new Piece(combinedCode.ToString(), type));
+			combinedCodePieces.Add(new(combinedCode.ToString(), type));
 
 			i += check;
 		}
@@ -31,7 +31,7 @@ public abstract class AbstractParser
 
 	private static List<string> SplitCodeByPreProcessorDirectives(string code)
 	{
-		List<string> splitByPpd = new();
+		List<string> splitByPpd = [];
 		bool isInsidePpd = false;
 		int changeIndex = 0;
 		for (int i = 0; i < code.Length - 1; i++)
@@ -58,7 +58,7 @@ public abstract class AbstractParser
 	// TODO: Add support for different kind of line breaks.
 	private static List<string> SplitCodeByComments(string code)
 	{
-		List<string> splitByComments = new();
+		List<string> splitByComments = [];
 		bool isInsideComment = false;
 		int changeIndex = 0;
 		for (int i = 0; i < code.Length - 1; i++)
@@ -88,7 +88,7 @@ public abstract class AbstractParser
 			_ => throw new ArgumentException($"Parameter '{nameof(quote)}' was not a quote."),
 		};
 
-		List<string> splitByString = new();
+		List<string> splitByString = [];
 		bool isInsideQuotes = false;
 		int changeIndex = 0;
 		for (int i = 0; i < code.Length; i++)
@@ -154,7 +154,7 @@ public abstract class AbstractParser
 
 	public List<Piece> Parse(string code, List<Piece>? externalDeclarations = null)
 	{
-		List<Piece> codePieces = new();
+		List<Piece> codePieces = [];
 
 		List<Piece> detectedDeclarations = DetectDeclarations(code.SplitIncludeDelimiters(CodeLanguage.Separators));
 
@@ -164,7 +164,7 @@ public abstract class AbstractParser
 			bool isPpd = i % 2 == 1;
 			if (isPpd)
 			{
-				codePieces.Add(new Piece(splitByPpd[i].TrimEnd(), "PreProcessorDirective"));
+				codePieces.Add(new(splitByPpd[i].TrimEnd(), "PreProcessorDirective"));
 				continue;
 			}
 
@@ -174,7 +174,7 @@ public abstract class AbstractParser
 				bool isComment = j % 2 == 1;
 				if (isComment)
 				{
-					codePieces.Add(new Piece(splitByComments[j].TrimEnd(), "Comment"));
+					codePieces.Add(new(splitByComments[j].TrimEnd(), "Comment"));
 					continue;
 				}
 
@@ -190,14 +190,14 @@ public abstract class AbstractParser
 							for (int l = 0; l < splitByCurlyBraces.Length; l++)
 							{
 								if (!splitByCurlyBraces[l].IsBetween)
-									codePieces.Add(new Piece(splitByCurlyBraces[l].Substring, "String"));
+									codePieces.Add(new(splitByCurlyBraces[l].Substring, "String"));
 								else
 									codePieces.AddRange(Parse(splitByCurlyBraces[l].Substring, externalDeclarations));
 							}
 						}
 						else
 						{
-							codePieces.Add(new Piece(splitByDoubleQuote[k], "String"));
+							codePieces.Add(new(splitByDoubleQuote[k], "String"));
 						}
 
 						continue;
@@ -209,7 +209,7 @@ public abstract class AbstractParser
 						bool isChar = l % 2 == 1;
 						if (isChar)
 						{
-							codePieces.Add(new Piece(splitBySingleQuote[l], "Char"));
+							codePieces.Add(new(splitBySingleQuote[l], "Char"));
 							continue;
 						}
 
@@ -233,20 +233,20 @@ public abstract class AbstractParser
 			 && IsDigitsOnly(split[index + 2].Replace("f", string.Empty)))
 			{
 				string newPiece = string.Concat(s0, split[index + 1], split[index + 2]);
-				codePieces.Add(new Piece(newPiece, "Number"));
+				codePieces.Add(new(newPiece, "Number"));
 				index += 2;
 				return;
 			}
 
 			if (IsDigitsOnly(s0[0] == '-' ? s0[1..] : s0))
 			{
-				codePieces.Add(new Piece(s0, "Number"));
+				codePieces.Add(new(s0, "Number"));
 				return;
 			}
 
 			if (IsReservedKeyword(s0, out string type))
 			{
-				codePieces.Add(new Piece(s0, type));
+				codePieces.Add(new(s0, type));
 				return;
 			}
 
@@ -262,7 +262,9 @@ public abstract class AbstractParser
 	}
 
 	private static bool IsDigitsOnly(string s)
-		=> !string.IsNullOrEmpty(s) && s.All(char.IsDigit);
+	{
+		return !string.IsNullOrEmpty(s) && s.All(char.IsDigit);
+	}
 
 	private bool IsReservedKeyword(string s, out string type)
 	{
@@ -280,7 +282,10 @@ public abstract class AbstractParser
 		return false;
 	}
 
-	protected virtual List<Piece> DetectDeclarations(string[] pieces) => new();
+	protected virtual List<Piece> DetectDeclarations(string[] pieces)
+	{
+		return [];
+	}
 
 	protected abstract Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index);
 }

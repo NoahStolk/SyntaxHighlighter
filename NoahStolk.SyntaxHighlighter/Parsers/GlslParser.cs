@@ -6,8 +6,8 @@ public sealed class GlslParser : AbstractParser
 
 	private GlslParser()
 	{
-		string[] vectorTypes = new string[] { "bvec", "dvec", "ivec", "uvec", "vec" };
-		List<string> vectorTypeKeywords = new();
+		string[] vectorTypes = ["bvec", "dvec", "ivec", "uvec", "vec"];
+		List<string> vectorTypeKeywords = [];
 		foreach (string vectorType in vectorTypes)
 		{
 			vectorTypeKeywords.Add(vectorType);
@@ -15,8 +15,8 @@ public sealed class GlslParser : AbstractParser
 				vectorTypeKeywords.Add($"{vectorType}{i}");
 		}
 
-		string[] matrixTypes = new string[] { "dmat", "mat" };
-		List<string> matrixTypeKeywords = new();
+		string[] matrixTypes = ["dmat", "mat"];
+		List<string> matrixTypeKeywords = [];
 		foreach (string matrixType in matrixTypes)
 		{
 			matrixTypeKeywords.Add(matrixType);
@@ -33,24 +33,18 @@ public sealed class GlslParser : AbstractParser
 
 	public static GlslParser Instance => _lazy.Value;
 
-	public override string Name { get; } = "GLSL";
+	public override string Name => "GLSL";
 
 	public override Language CodeLanguage { get; } = new(
-		reservedKeywords: new Dictionary<string, string[]>
+		reservedKeywords: new()
 		{
-			{
-				"KeywordDefault",
-				new string[] { "break", "case", "const", "continue", "default", "discard", "do", "else", "false", "flat", "for", "goto", "highp", "if", "in", "inout", "invariant", "layout", "lowp", "mediump", "noperspective", "out", "patch", "precision", "register", "return", "smooth", "struct", "subroutine", "switch", "uniform", "union", "varying", "void", "while" }
-			},
-			{
-				"KeywordTypeSampler",
-				new string[] { "isampler1D", "isampler1DArray", "isampler2D", "isampler2DArray", "isampler2DMS", "isampler2DMSArray", "isampler2DRect", "isampler3D", "isamplerBuffer", "isamplerCube", "isamplerCubeArray", "sample", "sampler1D", "sampler1DArray", "sampler1DArrayShadow", "sampler1DShadow", "sampler2D", "sampler2DArray", "sampler2DArrayShadow", "sampler2DMS", "sampler2DMSArray", "sampler2DRect", "sampler2DRectShadow", "sampler2DShadow", "sampler3D", "samplerBuffer", "samplerCube", "samplerCubeArray", "samplerCubeArrayShadow", "samplerCubeShadow", "usampler1D", "usampler1DArray", "usampler2D", "usampler2DArray", "usampler2DMS", "usampler2DMSArray", "usampler2DRect", "usampler3D", "usamplerBuffer", "usamplerCube", "usamplerCubeArray" }
-			},
+			["KeywordDefault"] = ["break", "case", "const", "continue", "default", "discard", "do", "else", "false", "flat", "for", "goto", "highp", "if", "in", "inout", "invariant", "layout", "lowp", "mediump", "noperspective", "out", "patch", "precision", "register", "return", "smooth", "struct", "subroutine", "switch", "uniform", "union", "varying", "void", "while"],
+			["KeywordTypeSampler"] = ["isampler1D", "isampler1DArray", "isampler2D", "isampler2DArray", "isampler2DMS", "isampler2DMSArray", "isampler2DRect", "isampler3D", "isamplerBuffer", "isamplerCube", "isamplerCubeArray", "sample", "sampler1D", "sampler1DArray", "sampler1DArrayShadow", "sampler1DShadow", "sampler2D", "sampler2DArray", "sampler2DArrayShadow", "sampler2DMS", "sampler2DMSArray", "sampler2DRect", "sampler2DRectShadow", "sampler2DShadow", "sampler3D", "samplerBuffer", "samplerCube", "samplerCubeArray", "samplerCubeArrayShadow", "samplerCubeShadow", "usampler1D", "usampler1DArray", "usampler2D", "usampler2DArray", "usampler2DMS", "usampler2DMSArray", "usampler2DRect", "usampler3D", "usamplerBuffer", "usamplerCube", "usamplerCubeArray"],
 		},
-		separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.', ':' });
+		separators: [' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.', ':']);
 
-	public override Style CodeStyle { get; } = new Style(
-		highlightColors: new Dictionary<string, Color>
+	public override Style CodeStyle { get; } = new(
+		highlightColors: new()
 		{
 			{ "KeywordDefault", new(0, 127, 255) },
 			{ "KeywordType", new(127, 63, 255) },
@@ -78,6 +72,6 @@ public sealed class GlslParser : AbstractParser
 		else
 			type = "Other";
 
-		return new Piece(pieces[index], type);
+		return new(pieces[index], type);
 	}
 }

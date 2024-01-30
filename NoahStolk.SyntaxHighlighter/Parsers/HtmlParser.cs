@@ -10,10 +10,10 @@ public sealed class HtmlParser : AbstractMarkupLanguageParser
 
 	public static HtmlParser Instance => _lazy.Value;
 
-	public override string Name { get; } = "HTML";
+	public override string Name => "HTML";
 
 	public override Style CodeStyle { get; } = new(
-		highlightColors: new Dictionary<string, Color>
+		highlightColors: new()
 		{
 			{ "Number", new(191, 191, 191) },
 			{ "Other", new(127, 191, 255) },

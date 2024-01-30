@@ -10,17 +10,17 @@ public sealed class XmlParser : AbstractMarkupLanguageParser
 
 	public static XmlParser Instance => _lazy.Value;
 
-	public override string Name { get; } = "XML";
+	public override string Name => "XML";
 
 	public override Style CodeStyle { get; } = new(
-		highlightColors: new Dictionary<string, Color>
+		highlightColors: new()
 		{
-			{ "Number", new Color(127, 255, 127) },
-			{ "Other", new Color(111, 223, 223) },
-			{ "String", new Color(255, 127, 0) },
-			{ "Char", new Color(255, 191, 0) },
-			{ "Element", new Color(127, 127, 255) },
+			{ "Number", new(127, 255, 127) },
+			{ "Other", new(111, 223, 223) },
+			{ "String", new(255, 127, 0) },
+			{ "Char", new(255, 191, 0) },
+			{ "Element", new(127, 127, 255) },
 		},
-		backgroundColor: new Color(5, 5, 11),
-		borderColor: new Color(63, 63, 127));
+		backgroundColor: new(5, 5, 11),
+		borderColor: new(63, 63, 127));
 }

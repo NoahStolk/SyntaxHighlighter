@@ -7,8 +7,8 @@ public sealed class HlslParser : AbstractParser
 
 	private HlslParser()
 	{
-		string[] types = new string[] { "bool", "double", "float", "half", "int", "min10float", "min12int", "min16float", "min16int", "min16uint", "uint" };
-		List<string> typeKeywords = new();
+		string[] types = ["bool", "double", "float", "half", "int", "min10float", "min12int", "min16float", "min16int", "min16uint", "uint"];
+		List<string> typeKeywords = [];
 		foreach (string type in types)
 		{
 			typeKeywords.Add(type);
@@ -22,10 +22,10 @@ public sealed class HlslParser : AbstractParser
 
 		CodeLanguage.ReservedKeywords["KeywordType"] = typeKeywords.ToArray();
 
-		List<string> functionKeywords = new() { "step", "sqrt", "abs", "pow", "saturate", "mul", "dot", "normalize", "clip" };
+		List<string> functionKeywords = ["step", "sqrt", "abs", "pow", "saturate", "mul", "dot", "normalize", "clip"];
 
-		string[] functions = new string[] { "tex1D", "tex2D", "tex3D", "texCUBE" };
-		string[] functionTypes = new string[] { "bias", "grad", "lod", "proj" };
+		string[] functions = ["tex1D", "tex2D", "tex3D", "texCUBE"];
+		string[] functionTypes = ["bias", "grad", "lod", "proj"];
 		foreach (string function in functions)
 		{
 			functionKeywords.Add(function);
@@ -38,28 +38,19 @@ public sealed class HlslParser : AbstractParser
 
 	public static HlslParser Instance => _lazy.Value;
 
-	public override string Name { get; } = "HLSL";
+	public override string Name => "HLSL";
 
 	public override Language CodeLanguage { get; } = new(
-		reservedKeywords: new Dictionary<string, string[]>
+		reservedKeywords: new()
 		{
-			{
-				"KeywordDefault",
-				new string[] { "break", "case", "const", "compile", "continue", "default", "discard", "do", "else", "false", "for", "goto", "if", "pass", "register", "return", "sampler", "sampler1D", "sampler2D", "sampler3D", "samplerCUBE", "sampler_state", "struct", "switch", "technique", "texture", "true", "while" }
-			},
-			{
-				"KeywordControlStatement",
-				new string[] { "loop", "branch" }
-			},
-			{
-				"KeywordSemantic",
-				new string[] { "COLOR0" }
-			},
+			["KeywordDefault"] = ["break", "case", "const", "compile", "continue", "default", "discard", "do", "else", "false", "for", "goto", "if", "pass", "register", "return", "sampler", "sampler1D", "sampler2D", "sampler3D", "samplerCUBE", "sampler_state", "struct", "switch", "technique", "texture", "true", "while"],
+			["KeywordControlStatement"] = ["loop", "branch"],
+			["KeywordSemantic"] = ["COLOR0"],
 		},
-		separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.' });
+		separators: [' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.']);
 
 	public override Style CodeStyle { get; } = new(
-		highlightColors: new Dictionary<string, Color>
+		highlightColors: new()
 		{
 			{ "KeywordDefault", new(0, 127, 255) },
 			{ "KeywordType", new(127, 63, 255) },

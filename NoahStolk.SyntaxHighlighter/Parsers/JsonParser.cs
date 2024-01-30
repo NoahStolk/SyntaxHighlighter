@@ -10,20 +10,17 @@ public sealed class JsonParser : AbstractParser
 
 	public static JsonParser Instance => _lazy.Value;
 
-	public override string Name { get; } = "JSON";
+	public override string Name => "JSON";
 
 	public override Language CodeLanguage { get; } = new(
-		reservedKeywords: new Dictionary<string, string[]>
+		reservedKeywords: new()
 		{
-			{
-				"Keyword",
-				new string[] { "false", "null", "true" }
-			},
+			["Keyword"] = ["false", "null", "true"],
 		},
-		separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.' });
+		separators: [' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', ';', '.']);
 
 	public override Style CodeStyle { get; } = new(
-		highlightColors: new Dictionary<string, Color>
+		highlightColors: new()
 		{
 			{ "Number", new(127, 255, 127) },
 			{ "Other", new(255, 255, 255) },
@@ -36,5 +33,7 @@ public sealed class JsonParser : AbstractParser
 		borderColor: new(127, 95, 63));
 
 	protected override Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index)
-		=> new(pieces[index], "Other");
+	{
+		return new(pieces[index], "Other");
+	}
 }

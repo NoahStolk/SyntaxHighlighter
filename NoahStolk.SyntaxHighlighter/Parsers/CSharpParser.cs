@@ -10,28 +10,19 @@ public sealed class CSharpParser : AbstractParser
 
 	public static CSharpParser Instance => _lazy.Value;
 
-	public override string Name { get; } = "C#";
+	public override string Name => "C#";
 
 	public override Language CodeLanguage { get; } = new(
-		reservedKeywords: new Dictionary<string, string[]>
+		reservedKeywords: new()
 		{
-			{
-				"KeywordDefault",
-				new string[] { "abstract", "as", "base", "bool", "byte", "char", "checked", "class", "const", "decimal", "default", "delegate", "double", "enum", "event", "explicit", "extern", "false", "fixed", "float", "implicit", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string", "struct", "this", "throw", "true", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile" }
-			},
-			{
-				"KeywordConditional",
-				new string[] { "break", "case", "catch", "continue", "do", "else", "finally", "for", "foreach", "goto", "if", "in", "return", "switch", "try", "while" } // "default", Only inside a switch statement...
-			},
-			{
-				"KeywordContextual",
-				new string[] { "add", "alias", "ascending", "async", "await", "by", "descending", "dynamic", "equals", "from", "get", "global", "group", "into", "join", "let", "nameof", "on", "orderby", "partial", "remove", "select", "set", "unmanaged", "value", "var", "when", "where", "yield" }
-			},
+			["KeywordDefault"] = ["abstract", "as", "base", "bool", "byte", "char", "checked", "class", "const", "decimal", "default", "delegate", "double", "enum", "event", "explicit", "extern", "false", "fixed", "float", "implicit", "int", "interface", "internal", "is", "lock", "long", "namespace", "new", "null", "object", "operator", "out", "override", "params", "private", "protected", "public", "readonly", "ref", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string", "struct", "this", "throw", "true", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile"],
+			["KeywordConditional"] = ["break", "case", "catch", "continue", "do", "else", "finally", "for", "foreach", "goto", "if", "in", "return", "switch", "try", "while"],// "default", Only inside a switch statement...
+			["KeywordContextual"] = ["add", "alias", "ascending", "async", "await", "by", "descending", "dynamic", "equals", "from", "get", "global", "group", "into", "join", "let", "nameof", "on", "orderby", "partial", "remove", "select", "set", "unmanaged", "value", "var", "when", "where", "yield"],
 		},
-		separators: new char[] { ' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', '{', '}', ';', '.' });
+		separators: [' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', '<', '>', '{', '}', ';', '.']);
 
 	public override Style CodeStyle { get; } = new(
-		highlightColors: new Dictionary<string, Color>
+		highlightColors: new()
 		{
 			{ "KeywordDefault", new(0, 127, 255) },
 			{ "KeywordConditional", new(191, 63, 255) },
@@ -54,7 +45,7 @@ public sealed class CSharpParser : AbstractParser
 
 	protected override List<Piece> DetectDeclarations(string[] pieces)
 	{
-		List<Piece> declarations = new();
+		List<Piece> declarations = [];
 		for (int i = 0; i < pieces.Length; i++)
 		{
 			string? twoBehind = i > 1 ? pieces[i - 2] : null;
@@ -72,7 +63,7 @@ public sealed class CSharpParser : AbstractParser
 			};
 
 			if (type != null)
-				declarations.Add(new Piece(pieces[i], type));
+				declarations.Add(new(pieces[i], type));
 		}
 
 		return declarations;
@@ -102,6 +93,6 @@ public sealed class CSharpParser : AbstractParser
 			type = "Other";
 		}
 
-		return new Piece(pieces[index], type);
+		return new(pieces[index], type);
 	}
 }
