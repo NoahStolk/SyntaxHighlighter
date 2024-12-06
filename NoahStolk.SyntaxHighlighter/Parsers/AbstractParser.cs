@@ -21,7 +21,7 @@ public abstract class AbstractParser
 			while (i + check < codePieces.Count && codePieces[i + check].Type == type)
 				combinedCode.Append(codePieces[i + check++].Code);
 
-			combinedCodePieces.Add(new(combinedCode.ToString(), type));
+			combinedCodePieces.Add(new Piece(combinedCode.ToString(), type));
 
 			i += check;
 		}
@@ -164,7 +164,7 @@ public abstract class AbstractParser
 			bool isPpd = i % 2 == 1;
 			if (isPpd)
 			{
-				codePieces.Add(new(splitByPpd[i].TrimEnd(), "PreProcessorDirective"));
+				codePieces.Add(new Piece(splitByPpd[i].TrimEnd(), "PreProcessorDirective"));
 				continue;
 			}
 
@@ -174,7 +174,7 @@ public abstract class AbstractParser
 				bool isComment = j % 2 == 1;
 				if (isComment)
 				{
-					codePieces.Add(new(splitByComments[j].TrimEnd(), "Comment"));
+					codePieces.Add(new Piece(splitByComments[j].TrimEnd(), "Comment"));
 					continue;
 				}
 
@@ -190,14 +190,14 @@ public abstract class AbstractParser
 							for (int l = 0; l < splitByCurlyBraces.Length; l++)
 							{
 								if (!splitByCurlyBraces[l].IsBetween)
-									codePieces.Add(new(splitByCurlyBraces[l].Substring, "String"));
+									codePieces.Add(new Piece(splitByCurlyBraces[l].Substring, "String"));
 								else
 									codePieces.AddRange(Parse(splitByCurlyBraces[l].Substring, externalDeclarations));
 							}
 						}
 						else
 						{
-							codePieces.Add(new(splitByDoubleQuote[k], "String"));
+							codePieces.Add(new Piece(splitByDoubleQuote[k], "String"));
 						}
 
 						continue;
@@ -209,7 +209,7 @@ public abstract class AbstractParser
 						bool isChar = l % 2 == 1;
 						if (isChar)
 						{
-							codePieces.Add(new(splitBySingleQuote[l], "Char"));
+							codePieces.Add(new Piece(splitBySingleQuote[l], "Char"));
 							continue;
 						}
 
@@ -233,20 +233,20 @@ public abstract class AbstractParser
 			 && IsDigitsOnly(split[index + 2].Replace("f", string.Empty)))
 			{
 				string newPiece = string.Concat(s0, split[index + 1], split[index + 2]);
-				codePieces.Add(new(newPiece, "Number"));
+				codePieces.Add(new Piece(newPiece, "Number"));
 				index += 2;
 				return;
 			}
 
 			if (IsDigitsOnly(s0[0] == '-' ? s0[1..] : s0))
 			{
-				codePieces.Add(new(s0, "Number"));
+				codePieces.Add(new Piece(s0, "Number"));
 				return;
 			}
 
 			if (IsReservedKeyword(s0, out string type))
 			{
-				codePieces.Add(new(s0, type));
+				codePieces.Add(new Piece(s0, type));
 				return;
 			}
 

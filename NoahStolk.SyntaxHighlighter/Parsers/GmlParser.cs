@@ -2,7 +2,7 @@ namespace NoahStolk.SyntaxHighlighter.Parsers;
 
 public sealed class GmlParser : AbstractParser
 {
-	private static readonly Lazy<GmlParser> _lazy = new(() => new());
+	private static readonly Lazy<GmlParser> _lazy = new(() => new GmlParser());
 
 	private GmlParser()
 	{
@@ -13,7 +13,7 @@ public sealed class GmlParser : AbstractParser
 	public override string Name => "GML";
 
 	public override Language CodeLanguage { get; } = new(
-		reservedKeywords: new()
+		reservedKeywords: new Dictionary<string, string[]>
 		{
 			["KeywordDefault"] = ["self", "other", "all", "noone", "var", "enum", "global", "globalvar"],
 			["KeywordConditional"] = ["break", "case", "continue", "do", "else", "exit", "for", "if", "repeat", "return", "switch", "while", "with"],
@@ -23,27 +23,27 @@ public sealed class GmlParser : AbstractParser
 		separators: [' ', '\t', '\r', '\n', ',', '[', ']', '(', ')', ';', '.']);
 
 	public override Style CodeStyle { get; } = new(
-		highlightColors: new()
+		highlightColors: new Dictionary<string, Color>
 		{
-			{ "KeywordDefault", new(255, 31, 0) },
-			{ "KeywordConditional", new(0, 127, 255) },
-			{ "KeywordLocal", new(0, 255, 0) },
-			{ "KeywordGlobal", new(0, 255, 91) },
-			{ "Number", new(255, 0, 127) },
-			{ "Other", new(255, 255, 255) },
-			{ "String", new(255, 255, 0) },
-			{ "Char", new(255, 191, 0) },
-			{ "Function", new(255, 127, 0) },
-			{ "Comment", new(0, 159, 0) },
+			{ "KeywordDefault", new Color(255, 31, 0) },
+			{ "KeywordConditional", new Color(0, 127, 255) },
+			{ "KeywordLocal", new Color(0, 255, 0) },
+			{ "KeywordGlobal", new Color(0, 255, 91) },
+			{ "Number", new Color(255, 0, 127) },
+			{ "Other", new Color(255, 255, 255) },
+			{ "String", new Color(255, 255, 0) },
+			{ "Char", new Color(255, 191, 0) },
+			{ "Function", new Color(255, 127, 0) },
+			{ "Comment", new Color(0, 159, 0) },
 		},
-		backgroundColor: new(11, 5, 5),
-		borderColor: new(127, 63, 63));
+		backgroundColor: new Color(11, 5, 5),
+		borderColor: new Color(127, 63, 63));
 
 	protected override Piece HandleLanguageSpecificCodeTypes(string[] pieces, int index)
 	{
 		if (index < pieces.Length - 1 && pieces[index + 1][0] == '(' && pieces[index][0] != '(')
-			return new(pieces[index], "Function");
+			return new Piece(pieces[index], "Function");
 
-		return new(pieces[index], "Other");
+		return new Piece(pieces[index], "Other");
 	}
 }
