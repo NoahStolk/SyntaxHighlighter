@@ -1,13 +1,7 @@
 namespace NoahStolk.SyntaxHighlighter;
 
-public class Language
+public sealed class Language(Dictionary<string, string[]> reservedKeywords, char[] separators)
 {
-	public Language(Dictionary<string, string[]> reservedKeywords, char[] separators)
-	{
-		ReservedKeywords = reservedKeywords;
-		Separators = separators;
-	}
-
-	public Dictionary<string, string[]> ReservedKeywords { get; }
-	public char[] Separators { get; }
+	public Dictionary<string, string[]> ReservedKeywords { get; } = reservedKeywords;
+	public char[] Separators { get; } = separators;
 }

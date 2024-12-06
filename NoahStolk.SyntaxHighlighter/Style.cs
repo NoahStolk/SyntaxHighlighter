@@ -1,15 +1,8 @@
 namespace NoahStolk.SyntaxHighlighter;
 
-public class Style
+public sealed class Style(Dictionary<string, Color> highlightColors, Color backgroundColor, Color borderColor)
 {
-	public Style(Dictionary<string, Color> highlightColors, Color backgroundColor, Color borderColor)
-	{
-		HighlightColors = highlightColors;
-		BackgroundColor = backgroundColor;
-		BorderColor = borderColor;
-	}
-
-	public Dictionary<string, Color> HighlightColors { get; }
-	public Color BackgroundColor { get; }
-	public Color BorderColor { get; }
+	public Dictionary<string, Color> HighlightColors { get; } = highlightColors;
+	public Color BackgroundColor { get; } = backgroundColor;
+	public Color BorderColor { get; } = borderColor;
 }

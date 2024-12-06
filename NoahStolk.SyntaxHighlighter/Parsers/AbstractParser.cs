@@ -134,14 +134,14 @@ public abstract class AbstractParser
 					active = false;
 					sb.Append(c);
 					yield return (sb.ToString(), true);
-					sb.Clear();
 				}
 				else
 				{
 					sb.Append(c);
 					yield return (sb.ToString(), false);
-					sb.Clear();
 				}
+
+				sb.Clear();
 			}
 			else
 			{
